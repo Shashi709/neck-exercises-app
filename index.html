@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Neck Exercises Guide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background:#e6f7ff; margin:0; padding:0;
+    }
+    *, *:before, *:after { box-sizing: inherit; }
+    h1 { text-align:center; color: #003366; margin:18px 0 10px 0;}
+    .container { max-width:650px; margin:auto; padding:12px;}
+    .section-head { margin:28px 0 10px 0; font-size:1.19em; color:#116b97;}
+    .exercise-box {
+      background:#fff; border-radius:13px; box-shadow:0 2px 8px #bde0ff55;
+      margin-bottom:22px; padding:18px 13px 13px 13px; position:relative;
+      width:100%;
+    }
+    .ex-header { display:flex; align-items:flex-start; margin-bottom:9px; gap:12px;}
+    .ex-icon {
+      min-width:54px; min-height:54px; width:54px; height:54px; background:#cce2ff; border-radius:7px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:2.0em; flex-shrink:0; margin-top:4px;
+      overflow: hidden; line-height: 1.0; letter-spacing: -0.07em;
+    }
+    .ex-content { flex:1;}
+    .ex-title { font-weight:bold; font-size:1.08em; color:#124e7e;}
+    .ex-desc { color:#444; font-size:1em; margin:5px 0 0 0;}
+    .inputs-row { margin:9px 0 6px 0; display:flex; gap:15px; align-items:center; flex-wrap:wrap;}
+    label { font-size:0.98em;}
+    input[type='number'] { width:60px; padding:5px 9px; font-size:1em; border-radius:5px; border:1px solid #007BFF;}
+    .btn-row { display:flex; gap:9px; margin-top:8px; flex-wrap:wrap;}
+    button {
+      padding:8px 19px; font-size:1em; border-radius:8px; border:none; color:#fff; cursor:pointer; transition: background 0.2s;
+    }
+    .start { background:#28a745;}
+    .start:hover { background:#1e7e34;}
+    .pause { background:#ffc107; color:#333;}
+    .pause:hover { background:#e0a800;}
+    .resume { background:#007bff;}
+    .resume:hover { background:#0056b3;}
+    .reset { background:#dc3545;}
+    .reset:hover { background:#b92a35;}
+    .counter-row { display:flex; gap:14px; align-items:center; margin:11px 0 2px 0; flex-wrap:wrap;}
+    .big-num { font-size:1.27em; color:#007BFF; min-width:28px; display:inline-block;}
+    .total-time { font-size:0.95em; color:#666;}
+    .progress-txt { font-size:1em; color:#25a244; margin-top:2px;}
+    .danger {color:#dc3545; font-weight:bold;}
+    .warning {color:#d0821f;}
+    @media (max-width:600px){
+      h1 {font-size: 1.16em;}
+      .container{padding:4px;}
+      .exercise-box{padding:10px 3px 7px 3px;}
+      .ex-header{flex-direction:column; gap:4px;}
+      .ex-icon{width:36px;min-width:36px;height:36px;min-height:36px;font-size:1.1em;}
+      .btn-row button{width:99%; font-size:0.97em;}
+      .counter-row{gap:7px;}
+      .inputs-row{gap:8px;}
+    }
+  </style>
+</head>
+<body>
+  <h1>Neck Exercises Guide</h1>
+  <div class="container" id="exerciseContainer">
+    <div style="margin:16px 0 12px 0; text-align:center;">
+      <span class="danger">If you experience any pain, STOP exercising immediately!</span>
+    </div>
+  </div>
+  <audio id="beep-sound" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124b19f6d5.mp3"></audio>
+<script>
+const exerciseSections = [
+  {
+    title: "Warm-up Exercises",
+    exercises: [
+      {
+        name: "Neck Rotation",
+        icon: "🔄",
+        description: "Slowly turn your head left and right. Don't force, stay gentle.",
+        defaultReps: 10, defaultSeconds: 10
+      },
+      {
+        name: "Neck Side Bending",
+        icon: "↔️",
+        description: "Slowly bend your head so your ear moves towards shoulder (left/right). Shoulders relaxed.",
+        defaultReps: 10, defaultSeconds: 10
+      }
+    ]
+  },
+  {
+    title: "Strengthening Exercises",
+    exercises: [
+      {
+        name: "Front Neck Isometric",
+        icon: "🧑‍🦱✋",
+        description: "Place both hands on your forehead. Push your head against your hands gently (no movement), hold.",
+        defaultReps: 10, defaultSeconds: 10
+      },
+      {
+        name: "Back Neck Isometric",
+        icon: "🧑‍🦱✋",
+        description: "Clasp hands behind your head. Push head backward against hands, do not let head move.",
+        defaultReps: 10, defaultSeconds: 10
+      },
+      {
+        // Combined Left+Right
+        name: "Side Neck Isometric (Left + Right)",
+        icon: "<span>🧑🤚</span><span style='margin-left:-6px;'>🤚🧑</span>",
+        description: "Place hand on left side of head. Push head against hand (no movement), then switch to right side. <br>1 rep = both sides.",
+        defaultReps: 10, defaultSeconds: 10
+      },
+      {
+        name: "Shoulder Shrugs",
+        icon: "🤷",
+        description: "Move your shoulders up towards your ears, then relax to original position.",
+        defaultReps: 10, defaultSeconds: 10
+      },
+      {
+        name: "Arm Swinging",
+        icon: "💪↔️",
+        description: "Move your arms forward and backward as shown (see picture/guide if unsure).",
+        defaultReps: 10, defaultSeconds: 10
+      }
+    ]
+  }
+];
+
+// --- Beep logic ---
+const beep = document.getElementById('beep-sound');
+function playBeep(times=1) {
+  let played=0;
+  function playOnce() {
+    beep.currentTime=0; beep.play();
+    played++; if(played<times) setTimeout(playOnce,340);
+  }
+  playOnce();
+}
+
+function formatTime(secs) {
+  let m = Math.floor(secs/60), s = secs%60;
+  return `${m}:${s<10?'0':''}${s}`;
+}
+
+// --- UI rendering and timer logic ---
+const exContainer = document.getElementById('exerciseContainer');
+exerciseSections.forEach((sec, secIdx) => {
+  // Section Heading
+  const sectionHead = document.createElement('div');
+  sectionHead.className = "section-head";
+  sectionHead.textContent = sec.title;
+  exContainer.appendChild(sectionHead);
+
+  sec.exercises.forEach((ex, idx) => {
+    // HTML Box
+    const exBox = document.createElement('div');
+    exBox.className = "exercise-box";
+    // Handle icon with innerHTML (for combined emoji)
+    let iconHTML = ex.icon.startsWith('<span') ? ex.icon : `<span>${ex.icon}</span>`;
+    exBox.innerHTML = `
+      <div class="ex-header">
+        <div class="ex-icon">${iconHTML}</div>
+        <div class="ex-content">
+          <div class="ex-title">${ex.name}</div>
+          <div class="ex-desc">${ex.description}</div>
+        </div>
+      </div>
+      <div class="inputs-row">
+        <label>Reps:
+          <input type="number" min="1" max="99" value="${ex.defaultReps}" id="reps_${secIdx}_${idx}">
+        </label>
+        <label>Time/Rep (sec):
+          <input type="number" min="1" max="99" value="${ex.defaultSeconds}" id="seconds_${secIdx}_${idx}">
+        </label>
+      </div>
+      <div class="btn-row">
+        <button class="start"    id="start_${secIdx}_${idx}">Start</button>
+        <button class="pause"    id="pause_${secIdx}_${idx}" style="display:none;">Pause</button>
+        <button class="resume"   id="resume_${secIdx}_${idx}" style="display:none;">Resume</button>
+        <button class="reset"    id="reset_${secIdx}_${idx}"  style="display:none;">Reset</button>
+      </div>
+      <div class="counter-row">
+        <span>Rep: <span class="big-num" id="currRep_${secIdx}_${idx}">0</span>/<span id="maxRep_${secIdx}_${idx}">${ex.defaultReps}</span></span>
+        <span>Time: <span class="big-num" id="currSec_${secIdx}_${idx}">0</span>/<span id="maxSec_${secIdx}_${idx}">${ex.defaultSeconds}</span> sec</span>
+        <span class="total-time">Total: <span id="totalTime_${secIdx}_${idx}">0:00</span></span>
+      </div>
+      <div class="progress-txt" id="progressTxt_${secIdx}_${idx}">&nbsp;</div>
+    `;
+    exContainer.appendChild(exBox);
+
+    // Timer state per exercise
+    let state = {
+      running: false, paused: false, finished: false,
+      rep: 0, sec: 0, total: 0, interval: null,
+      reps: ex.defaultReps, perSec: ex.defaultSeconds,
+    };
+
+    // DOM elements
+    const repInp = document.getElementById(`reps_${secIdx}_${idx}`);
+    const secInp = document.getElementById(`seconds_${secIdx}_${idx}`);
+    const startBtn = document.getElementById(`start_${secIdx}_${idx}`);
+    const pauseBtn = document.getElementById(`pause_${secIdx}_${idx}`);
+    const resumeBtn = document.getElementById(`resume_${secIdx}_${idx}`);
+    const resetBtn = document.getElementById(`reset_${secIdx}_${idx}`);
+    const currRep = document.getElementById(`currRep_${secIdx}_${idx}`);
+    const maxRep = document.getElementById(`maxRep_${secIdx}_${idx}`);
+    const currSec = document.getElementById(`currSec_${secIdx}_${idx}`);
+    const maxSec = document.getElementById(`maxSec_${secIdx}_${idx}`);
+    const totalTime = document.getElementById(`totalTime_${secIdx}_${idx}`);
+    const progressTxt = document.getElementById(`progressTxt_${secIdx}_${idx}`);
+
+    function updateDisplay() {
+      currRep.innerText = state.rep;
+      maxRep.innerText = state.reps;
+      currSec.innerText = state.sec;
+      maxSec.innerText = state.perSec;
+      totalTime.innerText = formatTime(state.total);
+      if(state.finished) {
+        progressTxt.innerText = "WELL DONE! Exercise complete.";
+        progressTxt.className = "progress-txt danger";
+        exBox.classList.remove("active");
+      }
+      else if(state.rep>=state.reps) {
+        progressTxt.innerText = "Completed! Press Reset to repeat.";
+        progressTxt.className = "progress-txt warning";
+        exBox.classList.remove("active");
+      }
+      else if(state.running) {
+        let left = state.reps - state.rep;
+        progressTxt.innerText = left==0 ? "Last rep!" : (left==1 ? "Last one, keep going!" : `Only ${left} left!`);
+        progressTxt.className = "progress-txt";
+        exBox.classList.add("active");
+      } else if(state.paused) {
+        progressTxt.innerText = "Paused";
+        progressTxt.className = "progress-txt warning";
+      } else {
+        progressTxt.innerHTML = "&nbsp;";
+        progressTxt.className = "progress-txt";
+        exBox.classList.remove("active");
+      }
+    }
+    function disableInputs(dis) {
+      repInp.disabled = dis;
+      secInp.disabled = dis;
+    }
+    // Timer logic
+    function start() {
+      state.reps = parseInt(repInp.value)||1;
+      state.perSec = parseInt(secInp.value)||1;
+      state.rep = 0; state.sec = 0; state.total=0;
+      state.running=true; state.paused=false; state.finished=false;
+      disableInputs(true);
+      currRep.classList.remove('pulse');
+      currSec.classList.remove('pulse');
+      updateDisplay();
+      startBtn.style.display='none';
+      pauseBtn.style.display='';
+      resumeBtn.style.display='none';
+      resetBtn.style.display='';
+      exBox.classList.add("active");
+      state.interval = setInterval(() => {
+        if(state.paused||state.finished) return;
+        state.sec++; state.total++;
+        currSec.classList.add('pulse');
+        setTimeout(()=>currSec.classList.remove('pulse'),220);
+        if(state.sec>=state.perSec) {
+          state.sec=0;
+          state.rep++;
+          currRep.classList.add('pulse');
+          setTimeout(()=>currRep.classList.remove('pulse'),200);
+          playBeep(1);
+          if(state.rep>=state.reps) {
+            clearInterval(state.interval); state.interval=null;
+            state.running=false; state.finished=true;
+            setTimeout(()=>playBeep(7),350);
+          }
+        }
+        updateDisplay();
+      },1000);
+    }
+    function pause() {
+      if(state.running && !state.paused){
+        state.paused=true; state.running=false;
+        clearInterval(state.interval); state.interval=null;
+        pauseBtn.style.display='none'; resumeBtn.style.display='';
+        exBox.classList.remove("active");
+        updateDisplay();
+      }
+    }
+    function resume() {
+      if(state.paused && !state.running){
+        state.paused=false; state.running=true;
+        pauseBtn.style.display=''; resumeBtn.style.display='none';
+        exBox.classList.add("active");
+        state.interval = setInterval(() => {
+          if(state.paused||state.finished) return;
+          state.sec++; state.total++;
+          currSec.classList.add('pulse');
+          setTimeout(()=>currSec.classList.remove('pulse'),220);
+          if(state.sec>=state.perSec) {
+            state.sec=0; state.rep++;
+            currRep.classList.add('pulse');
+            setTimeout(()=>currRep.classList.remove('pulse'),200);
+            playBeep(1);
+            if(state.rep>=state.reps) {
+              clearInterval(state.interval); state.interval=null;
+              state.running=false; state.finished=true;
+              setTimeout(()=>playBeep(7),350);
+            }
+          }
+          updateDisplay();
+        },1000);
+        updateDisplay();
+      }
+    }
+    function reset() {
+      if(state.interval) {clearInterval(state.interval);}
+      state.rep=0; state.sec=0; state.total=0;
+      state.running=false; state.paused=false; state.finished=false;
+      updateDisplay();
+      startBtn.style.display=''; pauseBtn.style.display='none'; resumeBtn.style.display='none'; resetBtn.style.display='none';
+      disableInputs(false);
+      exBox.classList.remove("active");
+    }
+    // Buttons
+    startBtn.onclick = start;
+    pauseBtn.onclick = pause;
+    resumeBtn.onclick = resume;
+    resetBtn.onclick = reset;
+    repInp.addEventListener('change', reset);
+    secInp.addEventListener('change', reset);
+    updateDisplay(); pauseBtn.style.display='none'; resumeBtn.style.display='none'; resetBtn.style.display='none';
+  });
+});
+</script>
+</body>
+</html>
