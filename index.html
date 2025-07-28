@@ -476,7 +476,7 @@ exerciseSections.forEach((sec, secIdx) => {
           state.rep++;
           currRep.classList.add('pulse');
           setTimeout(()=>currRep.classList.remove('pulse'),200);
-          playBeep(1);
+          playBeep(2);
           if(state.rep>=state.reps) {
             clearInterval(state.interval); state.interval=null;
             state.running=false; state.finished=true;
