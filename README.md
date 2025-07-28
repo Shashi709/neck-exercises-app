@@ -31,6 +31,6 @@ This app helps you perform, track, and time common neck warm-up and strengthenin
 3. **If you feel pain, stop exercising immediately!**
 
 ---
-
+https://shashi709.github.io/neck-exercises-app/
 ## 🗂️ Folder Structure
 
