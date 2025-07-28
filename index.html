@@ -69,7 +69,8 @@
       <span class="danger">If you experience any pain, STOP exercising immediately!</span>
     </div>
   </div>
-  <audio id="beep-sound" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124b19f6d5.mp3"></audio>
+  <!-- Use Google beep sound for max compatibility -->
+  <audio id="beep-sound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
 <script>
 const exerciseSections = [
   {
@@ -105,7 +106,6 @@ const exerciseSections = [
         defaultReps: 10, defaultSeconds: 10
       },
       {
-        // Combined Left+Right
         name: "Side Neck Isometric (Left + Right)",
         icon: "<span>🧑🤚</span><span style='margin-left:-6px;'>🤚🧑</span>",
         description: "Place hand on left side of head. Push head against hand (no movement), then switch to right side. <br>1 rep = both sides.",
@@ -129,21 +129,39 @@ const exerciseSections = [
 
 // --- Beep logic ---
 const beep = document.getElementById('beep-sound');
-function playBeep(times=1) {
-  let played=0;
-  function playOnce() {
-    beep.currentTime=0; beep.play();
-    played++; if(played<times) setTimeout(playOnce,340);
+
+// Unlock audio on first interaction
+let audioUnlocked = false;
+function unlockAudio() {
+  if (!audioUnlocked) {
+    beep.muted = true;
+    beep.play().catch(()=>{});
+    setTimeout(() => {
+      beep.pause(); beep.currentTime=0;
+      beep.muted = false;
+    }, 100);
+    audioUnlocked = true;
   }
-  playOnce();
+}
+window.addEventListener('mousedown', unlockAudio, {once:true});
+window.addEventListener('touchstart', unlockAudio, {once:true});
+
+function playBeep(repeats) {
+  let played = 0;
+  const interval = setInterval(() => {
+    beep.currentTime = 0;
+    beep.play();
+    played++;
+    if (played >= repeats) clearInterval(interval);
+  }, 250); // very rapid, loud feeling
 }
 
+// --- UI rendering and timer logic ---
 function formatTime(secs) {
   let m = Math.floor(secs/60), s = secs%60;
   return `${m}:${s<10?'0':''}${s}`;
 }
 
-// --- UI rendering and timer logic ---
 const exContainer = document.getElementById('exerciseContainer');
 exerciseSections.forEach((sec, secIdx) => {
   // Section Heading
@@ -156,7 +174,6 @@ exerciseSections.forEach((sec, secIdx) => {
     // HTML Box
     const exBox = document.createElement('div');
     exBox.className = "exercise-box";
-    // Handle icon with innerHTML (for combined emoji)
     let iconHTML = ex.icon.startsWith('<span') ? ex.icon : `<span>${ex.icon}</span>`;
     exBox.innerHTML = `
       <div class="ex-header">
@@ -269,11 +286,15 @@ exerciseSections.forEach((sec, secIdx) => {
           state.rep++;
           currRep.classList.add('pulse');
           setTimeout(()=>currRep.classList.remove('pulse'),200);
-          playBeep(1);
+
+          // Play short beep EVERY rep (including last one)
+          playBeep(2);
+
           if(state.rep>=state.reps) {
             clearInterval(state.interval); state.interval=null;
             state.running=false; state.finished=true;
-            setTimeout(()=>playBeep(7),350);
+            // Play loud beep after short beep
+            setTimeout(()=>playBeep(7), 350);
           }
         }
         updateDisplay();
@@ -302,7 +323,10 @@ exerciseSections.forEach((sec, secIdx) => {
             state.sec=0; state.rep++;
             currRep.classList.add('pulse');
             setTimeout(()=>currRep.classList.remove('pulse'),200);
+
+            // Play short beep EVERY rep (including last one)
             playBeep(1);
+
             if(state.rep>=state.reps) {
               clearInterval(state.interval); state.interval=null;
               state.running=false; state.finished=true;
