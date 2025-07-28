@@ -6,59 +6,260 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     html, body {
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background:#e6f7ff; margin:0; padding:0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: #f6f8fa;
+      margin:0; padding:0;
+      min-height: 100%;
+      color: #21232a;
+      letter-spacing: 0.01em;
     }
-    *, *:before, *:after { box-sizing: inherit; }
-    h1 { text-align:center; color: #003366; margin:18px 0 10px 0;}
-    .container { max-width:650px; margin:auto; padding:12px;}
-    .section-head { margin:28px 0 10px 0; font-size:1.19em; color:#116b97;}
+    *, *:before, *:after { box-sizing: border-box; }
+
+    h1 {
+      text-align:center;
+      color: #223366;
+      margin:36px 0 18px 0;
+      font-size:2.07em;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-shadow: 0 1.5px 0 #e3e7ee;
+    }
+
+    .container {
+      max-width:700px;
+      margin:auto;
+      padding:18px 10px 32px 10px;
+    }
+
+    .section-head {
+      margin:38px 0 18px 0;
+      font-size:1.14em;
+      font-weight: 600;
+      color:#4a6078;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 1px 4px #c8d0db13;
+      padding: 8px 18px;
+      border: 1px solid #e5e9f1;
+      position: relative;
+    }
+
     .exercise-box {
-      background:#fff; border-radius:13px; box-shadow:0 2px 8px #bde0ff55;
-      margin-bottom:22px; padding:18px 13px 13px 13px; position:relative;
-      width:100%;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 6px 32px 0 #dde2ec40, 0 1px 2px #d9dee9;
+      margin-bottom: 30px;
+      padding: 28px 22px 20px 22px;
+      position:relative;
+      border: 1px solid #e5e9f1;
+      transition: box-shadow 0.18s, border 0.16s;
     }
-    .ex-header { display:flex; align-items:flex-start; margin-bottom:9px; gap:12px;}
+    .exercise-box.active {
+      box-shadow: 0 10px 42px #c4cee355, 0 1.5px 6px #b8c9df42;
+      border-color: #bccbe6;
+    }
+
+    .ex-header {
+      display:flex; align-items:flex-start;
+      margin-bottom:13px; gap:16px;
+    }
     .ex-icon {
-      min-width:54px; min-height:54px; width:54px; height:54px; background:#cce2ff; border-radius:7px;
+      min-width:56px; min-height:56px;
+      width:56px; height:56px;
+      background: #f5f7fb;
+      border-radius: 10px;
       display:flex; align-items:center; justify-content:center;
-      font-size:2.0em; flex-shrink:0; margin-top:4px;
-      overflow: hidden; line-height: 1.0; letter-spacing: -0.07em;
+      font-size:2.2em; flex-shrink:0; margin-top:2px;
+      box-shadow: 0 1.5px 10px #e6eaf7, 0 2px 4px #f5f7fa inset;
+      border: 1.5px solid #f1f4fa;
+      transition: box-shadow 0.12s, border 0.15s;
     }
+    .exercise-box.active .ex-icon {
+      box-shadow: 0 3px 20px #c6d4ec80;
+      border-color: #dde8f8;
+    }
+
     .ex-content { flex:1;}
-    .ex-title { font-weight:bold; font-size:1.08em; color:#124e7e;}
-    .ex-desc { color:#444; font-size:1em; margin:5px 0 0 0;}
-    .inputs-row { margin:9px 0 6px 0; display:flex; gap:15px; align-items:center; flex-wrap:wrap;}
-    label { font-size:0.98em;}
-    input[type='number'] { width:60px; padding:5px 9px; font-size:1em; border-radius:5px; border:1px solid #007BFF;}
-    .btn-row { display:flex; gap:9px; margin-top:8px; flex-wrap:wrap;}
-    button {
-      padding:8px 19px; font-size:1em; border-radius:8px; border:none; color:#fff; cursor:pointer; transition: background 0.2s;
+    .ex-title {
+      font-weight:700;
+      font-size:1.10em;
+      color:#223366;
+      margin-bottom:4px;
     }
-    .start { background:#28a745;}
-    .start:hover { background:#1e7e34;}
-    .pause { background:#ffc107; color:#333;}
-    .pause:hover { background:#e0a800;}
-    .resume { background:#007bff;}
-    .resume:hover { background:#0056b3;}
-    .reset { background:#dc3545;}
-    .reset:hover { background:#b92a35;}
-    .counter-row { display:flex; gap:14px; align-items:center; margin:11px 0 2px 0; flex-wrap:wrap;}
-    .big-num { font-size:1.27em; color:#007BFF; min-width:28px; display:inline-block;}
-    .total-time { font-size:0.95em; color:#666;}
-    .progress-txt { font-size:1em; color:#25a244; margin-top:2px;}
-    .danger {color:#dc3545; font-weight:bold;}
-    .warning {color:#d0821f;}
-    @media (max-width:600px){
-      h1 {font-size: 1.16em;}
-      .container{padding:4px;}
+    .ex-desc {
+      color:#5a6271;
+      font-size:1em;
+      margin:5px 0 0 0;
+      font-weight:400;
+      line-height:1.52;
+      letter-spacing:0.01em;
+    }
+
+    .inputs-row {
+      margin:13px 0 8px 0;
+      display:flex;
+      gap:16px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    label {
+      font-size:0.99em;
+      color:#425375;
+      font-weight:500;
+    }
+    input[type='number'] {
+      width:62px; padding:5px 10px;
+      font-size:1em;
+      border-radius:7px;
+      border:1.3px solid #d2d9e7;
+      background: #f8fafc;
+      margin-left:7px;
+      color:#223355;
+      font-weight:600;
+      box-shadow: 0 2px 7px #f4f7fa05;
+      outline:none;
+      transition: border 0.18s, box-shadow 0.17s;
+    }
+    input[type='number']:focus {
+      border:2px solid #a1b4de;
+      background: #fff;
+    }
+    input[type='number']:disabled {
+      background: #f3f6fb;
+      color: #a5aab3;
+      border-color: #ebf0f8;
+    }
+
+    .btn-row {
+      display:flex; gap:9px;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    button {
+      padding:9px 23px;
+      font-size:1.03em;
+      border-radius:11px;
+      border:none;
+      font-weight:700;
+      cursor:pointer;
+      background: #f4f7fb;
+      color:#2a3350;
+      border: 1.2px solid #e5e9f1;
+      box-shadow: 0 1.5px 8px #dde3ef20;
+      transition: background 0.18s, box-shadow 0.15s, color 0.13s, border 0.14s, transform 0.12s;
+    }
+    button:hover, button:focus {
+      background: #e9eef6;
+      color: #003366;
+      border-color: #c9d2e3;
+      box-shadow: 0 4px 18px #ccd6e420;
+    }
+    button:active {
+      background: #e0e8f2;
+      color: #18223b;
+      transform: scale(0.98);
+    }
+    .start {font-weight:800;}
+    .pause {color:#aa7600;}
+    .resume {color:#18604b;}
+    .reset {color:#a43939;}
+    button:disabled {
+      background: #f3f5f9;
+      color: #c5c7cb;
+      cursor: not-allowed;
+      border-color: #f3f5fa;
+      box-shadow: none;
+    }
+
+    .counter-row {
+      display:flex; gap:14px; align-items:center;
+      margin:13px 0 2px 0; flex-wrap:wrap;
+      font-size:1em;
+    }
+    .big-num {
+      font-size:1.22em;
+      color:#234288;
+      min-width:28px;
+      display:inline-block;
+      font-weight:700;
+    }
+    .active .big-num,
+    .big-num.pulse {
+      color:#3063b1;
+    }
+    .total-time {
+      font-size:0.97em;
+      color:#57647d;
+      background: #f4f6fa;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      box-shadow: 0 0 7px #dce5f33b;
+      border: 1.1px solid #e5eaf4;
+      margin-left:4px;
+    }
+
+    .progress-txt {
+      font-size:1.01em;
+      font-weight:600;
+      color:#397857;
+      margin-top:8px;
+      min-height: 16px;
+      letter-spacing: 0.01em;
+      padding-left: 2px;
+    }
+    .danger {
+      color:#d94343;
+      background: #f8f2f2;
+      border-radius: 7px;
+      padding: 7px 11px 6px 11px;
+      font-weight:700;
+      box-shadow: 0 0 12px #f2d0d0;
+      margin-bottom: 15px;
+      display:inline-block;
+      border: 1.1px solid #efdddd;
+      letter-spacing: 0.03em;
+    }
+    .warning {color:#ad7b0c;}
+    .progress-txt.danger {animation: shake 0.35s 1;}
+    .progress-txt.warning {animation: flashWarn 0.5s 1;}
+
+    @keyframes shake {
+      20% {transform: translateX(-4px);}
+      40% {transform: translateX(5px);}
+      60% {transform: translateX(-3px);}
+      80% {transform: translateX(2px);}
+      100% {transform: translateX(0);}
+    }
+    @keyframes flashWarn {
+      0% {color:#eaaa13;}
+      80% {color:#ad7b0c;}
+      100% {color:#ad7b0c;}
+    }
+    .big-num.pulse {
+      animation: pulseGrow 0.16s cubic-bezier(.57,.24,.77,1.36);
+    }
+    @keyframes pulseGrow {
+      0% { transform: scale(1);}
+      50% { transform: scale(1.15);}
+      100% { transform: scale(1);}
+    }
+
+    @media (max-width: 700px){
+      h1 {font-size: 1.2em;}
+      .container{padding:7px 1.5vw;}
+      .section-head{font-size: 0.98em; padding: 7px 6px;}
       .exercise-box{padding:10px 3px 7px 3px;}
-      .ex-header{flex-direction:column; gap:4px;}
-      .ex-icon{width:36px;min-width:36px;height:36px;min-height:36px;font-size:1.1em;}
-      .btn-row button{width:99%; font-size:0.97em;}
+      .ex-header{flex-direction:column; gap:7px;}
+      .ex-icon{width:36px;min-width:36px;height:36px;min-height:36px;font-size:1.05em;}
+      .btn-row button{width:99%; font-size:0.95em;}
       .counter-row{gap:7px;}
-      .inputs-row{gap:8px;}
+      .inputs-row{gap:7px;}
+    }
+    @media (max-width:400px){
+      .exercise-box {padding:5px 1vw 5px 1vw;}
+      .section-head{font-size:0.91em;}
+      .ex-title{font-size:1.04em;}
     }
   </style>
 </head>
@@ -94,16 +295,10 @@ const exerciseSections = [
     title: "Strengthening Exercises",
     exercises: [
       {
-        name: "Front Neck Isometric",
-        icon: "🧑‍🦱✋",
-        description: "Place both hands on your forehead. Push your head against your hands gently (no movement), hold.",
-        defaultReps: 10, defaultSeconds: 10
-      },
-      {
-        name: "Back Neck Isometric",
-        icon: "🧑‍🦱✋",
-        description: "Clasp hands behind your head. Push head backward against hands, do not let head move.",
-        defaultReps: 10, defaultSeconds: 10
+        name: "Front + Back Neck Isometric",
+        icon: "🧑‍🦱✋↔️",
+        description: "Alternate: Push forehead into hands (front), then push back of head into hands (back), hold. 1 rep = front + back.",
+        defaultReps: 20, defaultSeconds: 10
       },
       {
         name: "Side Neck Isometric (Left + Right)",
@@ -115,13 +310,13 @@ const exerciseSections = [
         name: "Shoulder Shrugs",
         icon: "🤷",
         description: "Move your shoulders up towards your ears, then relax to original position.",
-        defaultReps: 10, defaultSeconds: 10
+        defaultReps: 20, defaultSeconds: 5
       },
       {
         name: "Arm Swinging",
         icon: "💪↔️",
         description: "Move your arms forward and backward as shown (see picture/guide if unsure).",
-        defaultReps: 10, defaultSeconds: 10
+        defaultReps: 4, defaultSeconds: 10
       }
     ]
   }
@@ -153,7 +348,7 @@ function playBeep(repeats) {
     beep.play();
     played++;
     if (played >= repeats) clearInterval(interval);
-  }, 250); // very rapid, loud feeling
+  }, 250);
 }
 
 // --- UI rendering and timer logic ---
@@ -164,14 +359,12 @@ function formatTime(secs) {
 
 const exContainer = document.getElementById('exerciseContainer');
 exerciseSections.forEach((sec, secIdx) => {
-  // Section Heading
   const sectionHead = document.createElement('div');
   sectionHead.className = "section-head";
   sectionHead.textContent = sec.title;
   exContainer.appendChild(sectionHead);
 
   sec.exercises.forEach((ex, idx) => {
-    // HTML Box
     const exBox = document.createElement('div');
     exBox.className = "exercise-box";
     let iconHTML = ex.icon.startsWith('<span') ? ex.icon : `<span>${ex.icon}</span>`;
@@ -206,14 +399,12 @@ exerciseSections.forEach((sec, secIdx) => {
     `;
     exContainer.appendChild(exBox);
 
-    // Timer state per exercise
     let state = {
       running: false, paused: false, finished: false,
       rep: 0, sec: 0, total: 0, interval: null,
       reps: ex.defaultReps, perSec: ex.defaultSeconds,
     };
 
-    // DOM elements
     const repInp = document.getElementById(`reps_${secIdx}_${idx}`);
     const secInp = document.getElementById(`seconds_${secIdx}_${idx}`);
     const startBtn = document.getElementById(`start_${secIdx}_${idx}`);
@@ -261,7 +452,6 @@ exerciseSections.forEach((sec, secIdx) => {
       repInp.disabled = dis;
       secInp.disabled = dis;
     }
-    // Timer logic
     function start() {
       state.reps = parseInt(repInp.value)||1;
       state.perSec = parseInt(secInp.value)||1;
@@ -286,14 +476,10 @@ exerciseSections.forEach((sec, secIdx) => {
           state.rep++;
           currRep.classList.add('pulse');
           setTimeout(()=>currRep.classList.remove('pulse'),200);
-
-          // Play short beep EVERY rep (including last one)
-          playBeep(2);
-
+          playBeep(1);
           if(state.rep>=state.reps) {
             clearInterval(state.interval); state.interval=null;
             state.running=false; state.finished=true;
-            // Play loud beep after short beep
             setTimeout(()=>playBeep(7), 350);
           }
         }
@@ -323,10 +509,7 @@ exerciseSections.forEach((sec, secIdx) => {
             state.sec=0; state.rep++;
             currRep.classList.add('pulse');
             setTimeout(()=>currRep.classList.remove('pulse'),200);
-
-            // Play short beep EVERY rep (including last one)
-            playBeep(1);
-
+            playBeep(2);
             if(state.rep>=state.reps) {
               clearInterval(state.interval); state.interval=null;
               state.running=false; state.finished=true;
@@ -347,7 +530,6 @@ exerciseSections.forEach((sec, secIdx) => {
       disableInputs(false);
       exBox.classList.remove("active");
     }
-    // Buttons
     startBtn.onclick = start;
     pauseBtn.onclick = pause;
     resumeBtn.onclick = resume;
