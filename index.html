@@ -428,11 +428,11 @@ if ('serviceWorker' in navigator) {
       applyTheme(next);
       try{ localStorage.setItem('neck_theme', next); }catch(e){}
     });
-    // Initialize: stored preference -> system preference -> dark (default)
+    // Initialize: stored preference -> system preference -> light
     const stored = (()=>{ try{return localStorage.getItem('neck_theme')}catch(e){return null} })();
     if(stored) applyTheme(stored);
     else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
-    else applyTheme('dark');
+    else applyTheme('light');
   }
 })();
 
