@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Neck Exercises Guide</title>
+  <title>Neck Exercises Admin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2563eb">
-  <meta name="description" content="Comprehensive neck exercises guide with timing and tracking">
+  <meta name="description" content="Admin panel for neck exercises with sequencer control">
   <style>
     html, body {
       font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
@@ -271,6 +271,8 @@
       .counter-row{gap:10px; margin:12px 0 6px 0; font-size:0.95em;}
       .big-num{font-size:1.15em; min-width:24px;}
       .total-time{font-size:0.92em; padding:2px 8px; border-radius:5px;}
+      .sequencer-panel{margin:60px auto 16px auto; padding:12px;}
+      .sequencer-panel .btn-row button{padding:7px 12px; font-size:0.9em;}
       .theme-toggle{top:8px; right:8px;}
       .theme-toggle button{padding:4px 8px; font-size:0.8em;}
     }
@@ -289,6 +291,10 @@
       .big-num{font-size:1.08em; min-width:22px;}
       .total-time{font-size:0.85em; padding:2px 6px;}
       .progress-txt{font-size:0.92em; margin-top:5px;}
+      .sequencer-panel{margin:50px auto 14px auto; padding:10px; border-radius:12px;}
+      .sequencer-panel .section-head{font-size:0.9em; padding:6px 10px; margin:0 0 8px 0;}
+      .sequencer-panel .btn-row{gap:6px; margin-top:8px;}
+      .sequencer-panel .btn-row button{padding:6px 10px; font-size:0.85em;}
     }
     @media (max-width: 600px){
       h1 {font-size: 1.25em; margin:16px 0 10px 0;}
@@ -308,6 +314,10 @@
       .total-time{font-size:0.8em; padding:1px 5px;}
       .progress-txt{font-size:0.88em; margin-top:4px;}
       .danger{padding:5px 8px 4px 8px; font-size:0.85em; margin-bottom:10px;}
+      .sequencer-panel{margin:45px auto 12px auto; padding:8px; border-radius:10px;}
+      .sequencer-panel .section-head{font-size:0.85em; padding:5px 8px; margin:0 0 6px 0;}
+      .sequencer-panel .btn-row{gap:4px; margin-top:6px;}
+      .sequencer-panel .btn-row button{padding:5px 8px; font-size:0.8em; flex:1;}
       .theme-toggle{top:5px; right:5px; gap:4px;}
       .theme-toggle button{padding:3px 6px; font-size:0.72em; border-radius:5px;}
     }
@@ -333,6 +343,11 @@
       .progress-txt{font-size:0.84em; margin-top:3px; min-height:13px;}
       .danger{padding:4px 6px 3px 6px; font-size:0.78em; border-radius:4px; margin-bottom:8px;}
       .warning{font-size:0.84em;}
+      .sequencer-panel{margin:40px auto 10px auto; padding:6px; border-radius:8px;}
+      .sequencer-panel .section-head{font-size:0.8em; padding:4px 6px; margin:0 0 4px 0;}
+      .sequencer-panel .btn-row{gap:2px; margin-top:4px;}
+      .sequencer-panel .btn-row button{padding:4px 6px; font-size:0.75em; flex:1;}
+      .sequencer-status{font-size:0.78em; padding:4px; margin-top:4px;}
       .theme-toggle{top:4px; right:4px; gap:2px;}
       .theme-toggle button{padding:2px 5px; font-size:0.65em; border-radius:4px; border:1px solid #999;}
     }
@@ -355,8 +370,18 @@
       .total-time{font-size:0.72em; padding:0px 3px; margin-left:1px;}
       .progress-txt{font-size:0.8em; margin-top:2px; min-height:12px;}
       .danger{padding:3px 5px; font-size:0.74em; margin-bottom:6px;}
+      .sequencer-panel{margin:35px auto 8px auto; padding:4px; border-radius:6px;}
+      .sequencer-panel .section-head{font-size:0.75em; padding:3px 5px;}
+      .sequencer-panel .btn-row button{padding:3px 4px; font-size:0.7em;}
       .theme-toggle{top:3px; right:3px; gap:2px;}
       .theme-toggle button{padding:2px 4px; font-size:0.6em; border-radius:3px;}
+    }}
+      .counter-row{font-size:0.75em; gap:4px; margin:6px 0 2px 0;}
+      .big-num{font-size:1em; min-width:18px;}
+      .total-time{font-size:0.75em; padding:1px 4px;}
+      .sequencer-panel{margin:40px auto 10px auto; padding:6px;}
+      .sequencer-panel .section-head{font-size:0.8em; padding:4px 6px;}
+      .sequencer-panel .btn-row button{padding:4px 6px; font-size:0.75em;}
     }
     /* Dark mode overrides */
     body.dark-mode {
@@ -381,23 +406,50 @@
     body.dark-mode .total-time{ background:#081623; color:#bcd6ef; border-color:#1b3346; }
     body.dark-mode .progress-txt{ color:#9fe0b1; }
     body.dark-mode .danger{ background:#3b1212; color:#ffd6d6; border-color:#5a1b1b; box-shadow:none; }
+    body.dark-mode input[type='checkbox']{ accent-color:#5ba3d0; }
     .theme-toggle{ position:fixed; top:10px; right:10px; z-index:999; display:flex; gap:6px; }
     .theme-toggle button{ padding:5px 10px; border-radius:7px; font-weight:600; cursor:pointer; font-size:0.85em; }
+    .sequencer-panel {
+      max-width:700px; margin:100px auto 20px auto; background:#fff; border-radius:15px; border:1px solid #e5e9f1; padding:16px; box-shadow: 0 1px 4px #c8d0db13;
+    }
+    body.dark-mode .sequencer-panel { background:#08121a; border-color:#123042; }
+    .sequencer-panel .btn-row { gap:8px; flex-wrap:wrap; }
+    .sequencer-panel .btn-row button { padding:8px 16px; font-size:0.96em; }
+    .sequencer-status { margin-top:12px; padding:10px; background:#f0f7f0; border-radius:8px; border:1px solid #c8e6c9; color:#2e7d32; font-weight:600; display:none; }
+    body.dark-mode .sequencer-status { background:#1a3a1a; border-color:#3a6a3a; color:#66bb6a; }
+    input[type='checkbox'] { margin-right:6px; cursor:pointer; }
   </style>
 </head>
 <body>
-  <h1>Neck Exercises Guide</h1>
+  <h1>Neck Exercises Admin</h1>
   <div class="theme-toggle">
     <button id="themeToggle" aria-pressed="false" title="Toggle dark mode">🌙</button>
-    <button id="adminBtn" title="Go to Admin Panel" style="background:#2563eb; color:#fff;">⚙️</button>
+    <button id="backBtn" title="Go back to Exercises" style="background:#7c3aed; color:#fff;">← Back</button>
   </div>
+  
+  <!-- Sequencer Panel -->
+  <div class="sequencer-panel">
+    <div class="section-head">⚡ Sequencer - Auto Run All Exercises</div>
+    <div class="btn-row" style="gap:10px; flex-wrap:wrap; margin-top:12px;">
+      <button id="selectAllBtn" style="background:#e3f2fd; color:#1976d2;">✓ Select All</button>
+      <button id="deselectAllBtn" style="background:#fce4ec; color:#c2185b;">✗ Deselect All</button>
+      <button id="startAllBtn" style="background:#e8f5e9; color:#388e3c; font-weight:800;">▶ Start All</button>
+      <button id="pauseAllBtn" style="background:#fff3e0; color:#f57c00;">⏸ Pause All</button>
+      <button id="resumeAllBtn" style="background:#e0f2f1; color:#00796b;">▶ Resume All</button>
+      <button id="resetAllBtn" style="background:#ffebee; color:#d32f2f;">⟲ Reset All</button>
+    </div>
+    <div class="sequencer-status" id="seqStatus">Running... Next: --</div>
+  </div>
+
   <div class="container" id="exerciseContainer">
     <div style="margin:16px 0 12px 0; text-align:center;">
       <span class="danger">If you experience any pain, STOP exercising immediately!</span>
     </div>
   </div>
-  <!-- Use Google beep sound for max compatibility -->
-  <audio id="beep-sound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+  <!-- Audio with inline data -->
+  <audio id="beep-sound" preload="auto"></audio>
+  <audio id="start-sound" preload="auto"></audio>
+  <audio id="first-time-sound" preload="auto"></audio>
 <script>
 // --- Register Service Worker for offline caching ---
 if ('serviceWorker' in navigator) {
@@ -428,7 +480,6 @@ if ('serviceWorker' in navigator) {
       applyTheme(next);
       try{ localStorage.setItem('neck_theme', next); }catch(e){}
     });
-    // Initialize: stored preference -> system preference -> light
     const stored = (()=>{ try{return localStorage.getItem('neck_theme')}catch(e){return null} })();
     if(stored) applyTheme(stored);
     else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
@@ -436,8 +487,9 @@ if ('serviceWorker' in navigator) {
   }
 })();
 
-document.getElementById('adminBtn').addEventListener('click', ()=>{
-  window.location.href = 'admin.html';
+// --- Back button ---
+document.getElementById('backBtn').addEventListener('click', ()=>{
+  window.location.href = 'index.html';
 });
 
 const exerciseSections = [
@@ -491,40 +543,97 @@ const exerciseSections = [
 
 // --- Beep logic ---
 const beep = document.getElementById('beep-sound');
+const startSound = document.getElementById('start-sound');
+const firstTimeSound = document.getElementById('first-time-sound');
 
-// Unlock audio on first interaction
+// Create simple beep tones programmatically
+function createBeepAudio() {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  oscillator.frequency.value = 800;
+  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+  oscillator.start(audioContext.currentTime);
+  oscillator.stop(audioContext.currentTime + 0.1);
+}
+
+function createStartAudio() {
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+    oscillator.frequency.linearRampToValueAtTime(900, audioContext.currentTime + 0.2);
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.2);
+  } catch(e) {}
+}
+
+function createFirstTimeAudio() {
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    oscillator.frequency.setValueAtTime(1200, audioContext.currentTime);
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.15);
+  } catch(e) {}
+}
+
 let audioUnlocked = false;
 function unlockAudio() {
   if (!audioUnlocked) {
-    beep.muted = true;
-    beep.play().catch(()=>{});
-    setTimeout(() => {
-      beep.pause(); beep.currentTime=0;
-      beep.muted = false;
-    }, 100);
+    try {
+      createBeepAudio();
+    } catch(e) {}
     audioUnlocked = true;
   }
 }
-window.addEventListener('mousedown', unlockAudio, {once:true});
-window.addEventListener('touchstart', unlockAudio, {once:true});
+document.addEventListener('click', unlockAudio);
+document.addEventListener('touchstart', unlockAudio);
 
 function playBeep(repeats) {
   let played = 0;
   const interval = setInterval(() => {
-    beep.currentTime = 0;
-    beep.play();
+    try {
+      createBeepAudio();
+    } catch(e) {}
     played++;
     if (played >= repeats) clearInterval(interval);
   }, 250);
 }
 
-// --- UI rendering and timer logic ---
+function playStartSound() {
+  try {
+    createStartAudio();
+  } catch(e) {}
+}
+
+function playFirstTimeSound() {
+  try {
+    createFirstTimeAudio();
+  } catch(e) {}
+}
+
 function formatTime(secs) {
   let m = Math.floor(secs/60), s = secs%60;
   return `${m}:${s<10?'0':''}${s}`;
 }
 
 const exContainer = document.getElementById('exerciseContainer');
+const controllers = [];
+
 exerciseSections.forEach((sec, secIdx) => {
   const sectionHead = document.createElement('div');
   sectionHead.className = "section-head";
@@ -544,6 +653,9 @@ exerciseSections.forEach((sec, secIdx) => {
         </div>
       </div>
       <div class="inputs-row">
+        <label style="display:flex; align-items:center; gap:8px;">
+          <input type="checkbox" class="sel-ex" id="sel_${secIdx}_${idx}" checked> Select
+        </label>
         <label>Reps:
           <input type="number" min="1" max="99" value="${ex.defaultReps}" id="reps_${secIdx}_${idx}">
         </label>
@@ -570,6 +682,7 @@ exerciseSections.forEach((sec, secIdx) => {
       running: false, paused: false, finished: false,
       rep: 0, sec: 0, total: 0, interval: null,
       reps: ex.defaultReps, perSec: ex.defaultSeconds,
+      firstTime: true,
     };
 
     const repInp = document.getElementById(`reps_${secIdx}_${idx}`);
@@ -624,6 +737,12 @@ exerciseSections.forEach((sec, secIdx) => {
       state.perSec = parseInt(secInp.value)||1;
       state.rep = 0; state.sec = 0; state.total=0;
       state.running=true; state.paused=false; state.finished=false;
+      if(state.firstTime) {
+        playFirstTimeSound();
+        state.firstTime = false;
+      } else {
+        playStartSound();
+      }
       disableInputs(true);
       currRep.classList.remove('pulse');
       currSec.classList.remove('pulse');
@@ -704,7 +823,102 @@ exerciseSections.forEach((sec, secIdx) => {
     repInp.addEventListener('change', reset);
     secInp.addEventListener('change', reset);
     updateDisplay(); pauseBtn.style.display='none'; resumeBtn.style.display='none'; resetBtn.style.display='none';
+
+    const selCheckbox = document.getElementById(`sel_${secIdx}_${idx}`);
+    const controller = {
+      secIdx, idx,
+      name: ex.name,
+      start: ()=> start(),
+      pause: ()=> pause(),
+      resume: ()=> resume(),
+      reset: ()=> reset(),
+      state,
+      selCheckbox,
+    };
+    controllers.push(controller);
   });
+});
+
+// --- Sequencer Logic ---
+function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
+let sequencer = { running:false, paused:false, currentIdx:-1 };
+function getSelectedControllers(){ return controllers.filter(c=> c.selCheckbox && c.selCheckbox.checked); }
+function updateSeqStatus() {
+  const status = document.getElementById('seqStatus');
+  if(sequencer.running){
+    const list = getSelectedControllers();
+    const nextIdx = sequencer.currentIdx + 1;
+    const nextName = nextIdx < list.length ? list[nextIdx].name : 'Done';
+    status.innerText = `Running... Current: ${sequencer.currentIdx >= 0 ? list[sequencer.currentIdx].name : 'Starting'} | Next: ${nextName}`;
+    status.style.display = 'block';
+  } else {
+    status.style.display = 'none';
+  }
+}
+
+document.getElementById('selectAllBtn').addEventListener('click', ()=>{
+  controllers.forEach(c=> c.selCheckbox && (c.selCheckbox.checked = true));
+});
+document.getElementById('deselectAllBtn').addEventListener('click', ()=>{
+  controllers.forEach(c=> c.selCheckbox && (c.selCheckbox.checked = false));
+});
+
+document.getElementById('pauseAllBtn').addEventListener('click', ()=>{
+  sequencer.paused = true;
+  controllers.forEach(c=> c.pause());
+  updateSeqStatus();
+});
+document.getElementById('resumeAllBtn').addEventListener('click', ()=>{
+  sequencer.paused = false;
+  controllers.forEach(c=> c.resume());
+  updateSeqStatus();
+});
+document.getElementById('resetAllBtn').addEventListener('click', ()=>{
+  sequencer.running = false;
+  sequencer.paused = false;
+  sequencer.currentIdx = -1;
+  controllers.forEach(c=> c.reset());
+  updateSeqStatus();
+});
+
+document.getElementById('startAllBtn').addEventListener('click', async ()=>{
+  if(sequencer.running) return;
+  sequencer.running = true;
+  sequencer.paused = false;
+  const list = getSelectedControllers();
+  if(list.length === 0) { alert('No exercises selected!'); return; }
+  
+  for(let i=0; i<list.length && sequencer.running; i++){
+    // wait while paused
+    while(sequencer.paused){ await sleep(200); if(!sequencer.running) break; }
+    if(!sequencer.running) break;
+    
+    const c = list[i];
+    sequencer.currentIdx = i;
+    updateSeqStatus();
+    
+    c.reset();
+    c.start();
+    
+    // wait for exercise to finish
+    while(true){
+      if(!sequencer.running) break;
+      if(sequencer.paused){ c.pause(); await sleep(200); continue; }
+      if(c.state.finished) break;
+      await sleep(300);
+    }
+    if(!sequencer.running) break;
+    
+    // wait 10 seconds before next exercise
+    for(let t=0; t<10 && sequencer.running; t++){
+      if(sequencer.paused){ await sleep(200); t--; continue; }
+      await sleep(1000);
+    }
+  }
+  
+  sequencer.running = false;
+  sequencer.currentIdx = -1;
+  updateSeqStatus();
 });
 </script>
 </body>
