@@ -500,7 +500,7 @@
       <h1>🏥 Neck Exercises</h1>
       <p>Safe, beginner-friendly cervical exercises for neck pain relief</p>
       <div class="option-buttons">
-        <button class="option-btn fast" onclick="startRoutine('fast')">⚡ FAST (5 MIN)</button>
+        <button class="option-btn fast" onclick="startRoutine('fast')">⚡ FAST (6-7 MIN)</button>
         <button class="option-btn normal" onclick="startRoutine('normal')">✓ NORMAL (25-26 MIN)</button>
       </div>
     </div>
@@ -551,8 +551,8 @@ initDarkMode();
 // Exercise routines configuration
 const exerciseRoutines = {
   fast: {
-    title: "⚡ Fast Neck Exercise Routine (5 Minutes - Gentle & Quick)",
-    badge: "FAST MODE - 5 MIN",
+    title: "⚡ Fast Neck Exercise Routine (6-7 Minutes - Gentle & Quick)",
+    badge: "FAST MODE - 6-7 MIN",
     badgeClass: "fast",
     sections: [
       {
@@ -579,13 +579,13 @@ const exerciseRoutines = {
             name: "Front + Back Neck Isometric",
             icon: "🧑‍🦱✋↔️",
             description: "Push forehead into hands (front), then push back of head into hands (back). Hold gently - no jerky movements!",
-            defaultReps: 8, defaultSeconds: 5
+            defaultReps: 8, defaultSeconds: 8
           },
           {
             name: "Side Neck Isometric (Left + Right)",
             icon: "<span>🧑🤚</span><span style='margin-left:-6px;'>🤚🧑</span>",
             description: "Place hand on left side of head. Push head against hand (no movement), then switch to right. Gentle pressure only!",
-            defaultReps: 8, defaultSeconds: 5
+            defaultReps: 8, defaultSeconds: 8
           },
           {
             name: "Shoulder Shrugs",
@@ -597,7 +597,7 @@ const exerciseRoutines = {
             name: "Arm Swinging",
             icon: "💪↔️",
             description: "Move your arms forward and backward in relaxed motion. No force needed!",
-            defaultReps: 8, defaultSeconds: 3
+            defaultReps: 8, defaultSeconds: 6
           }
         ]
       }
