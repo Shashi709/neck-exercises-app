@@ -144,6 +144,18 @@
       box-shadow: 0 12px 32px rgba(78, 205, 196, 0.4);
     }
 
+    .option-btn.it {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: #5a6fd8;
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+    }
+
+    .option-btn.it:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
+    }
+
     #exercisePage {
       display: none;
     }
@@ -204,6 +216,11 @@
     .routine-header .badge.normal {
       background: #e0f7f6;
       color: #00897b;
+    }
+
+    .routine-header .badge.it {
+      background: #e8e0ff;
+      color: #5a4fcf;
     }
 
     .section-head {
@@ -501,7 +518,7 @@
       <p>Safe, beginner-friendly cervical exercises for neck pain relief</p>
       <div class="option-buttons">
         <button class="option-btn fast" onclick="startRoutine('fast')">⚡ FAST (6-7 MIN)</button>
-        <button class="option-btn normal" onclick="startRoutine('normal')">✓ NORMAL (25-26 MIN)</button>
+        <button class="option-btn it" onclick="startRoutine('it')">🧠 IT ROUTINE (20-25 MIN)</button>
       </div>
     </div>
   </div>
@@ -655,6 +672,144 @@ const exerciseRoutines = {
         ]
       }
     ]
+  },
+  it: {
+    title: "🧠 IT Person Neck Recovery Routine (20–25 Minutes)",
+    badge: "IT MODE - 20-25 MIN",
+    badgeClass: "it",
+    sections: [
+      {
+        title: "🔥 Warm-up (5 Minute)",
+        exercises: [
+          {
+            name: "Neck Rotation (Left–Right)",
+            icon: "🔄",
+            description: "Aaram se gardan left-right ghumaye. Reps: 10, Time: 5–6 sec",
+            defaultReps: 10, defaultSeconds: 6
+          },
+          {
+            name: "Neck Up–Down",
+            icon: "↕️",
+            description: "Gardan ko niche (chin chest) aur upar le jaye. Reps: 8–10",
+            defaultReps: 10, defaultSeconds: 4
+          },
+          {
+            name: "Side Bending",
+            icon: "↔️",
+            description: "Kaan ko shoulder ki taraf le jaye (shoulder stable rakhe). Reps: 8–10 each side",
+            defaultReps: 10, defaultSeconds: 4
+          },
+          {
+            name: "Shoulder Rolls",
+            icon: "🤷",
+            description: "Shoulder ko aage-piche ghumaye. Reps: 12–15",
+            defaultReps: 15, defaultSeconds: 3
+          }
+        ]
+      },
+      {
+        title: "💪 Strengthening (8–10 Minute)",
+        exercises: [
+          {
+            name: "Front + Back Isometric",
+            icon: "🧑‍🦱✋",
+            description: "Haath se forehead ko push kare (movement nahi), phir head ko piche haath me push kare. 1 rep = front + back. Reps: 16, Hold: 5 sec",
+            defaultReps: 16, defaultSeconds: 5
+          },
+          {
+            name: "Side Isometric (Left + Right)",
+            icon: "<span>🧑🤚</span><span style='margin-left:-6px;'>🤚🧑</span>",
+            description: "Side me haath laga ke push kare left se, phir right se. 1 rep = both sides. Reps: 16, Hold: 5 sec",
+            defaultReps: 16, defaultSeconds: 5
+          },
+          {
+            name: "Chin Tuck ⭐",
+            icon: "🧍‍♂️",
+            description: "Chin ko piche kheecho (double chin). Reps: 10–12, Hold: 5 sec",
+            defaultReps: 12, defaultSeconds: 5
+          },
+          {
+            name: "Shoulder Blade Squeeze ⭐",
+            icon: "🧱",
+            description: "Shoulders ko piche kheecho aur hold karo. Reps: 10–12, Hold: 5 sec",
+            defaultReps: 12, defaultSeconds: 5
+          }
+        ]
+      },
+      {
+        title: "🧘 Stretching (5–7 Minute)",
+        exercises: [
+          {
+            name: "Side Neck Stretch",
+            icon: "🧘",
+            description: "Halka sa gardan ko side kheecho (left aur right dono sides). Hold: 15–20 sec per side",
+            defaultReps: 2, defaultSeconds: 20
+          },
+          {
+            name: "Diagonal Stretch",
+            icon: "🧘",
+            description: "45° pe gardan ghuma ke niche kheecho. Hold: 15 sec",
+            defaultReps: 1, defaultSeconds: 15
+          },
+          {
+            name: "Chest Stretch ⭐",
+            icon: "💪",
+            description: "Chest ko open kare (doorway stretch). Hold: 20 sec",
+            defaultReps: 1, defaultSeconds: 20
+          }
+        ]
+      },
+      {
+        title: "😌 Relaxation (2–3 Minute)",
+        exercises: [
+          {
+            name: "Deep Breathing",
+            icon: "🌬️",
+            description: "Deep breathing. Optional: Garam sek (heat pack) 5–10 min",
+            defaultReps: 1, defaultSeconds: 180
+          }
+        ]
+      }
+    ],
+    additionalContent: `
+      <div class="section-head">⏱️ Office Me Kya Kare? (Game Changer ⭐)</div>
+      <div class="exercise-box">
+        <p><strong>Har 30–40 min baad:</strong></p>
+        <ul>
+          <li>1–2 min break lo</li>
+          <li>5 chin tuck karo</li>
+          <li>5 shoulder roll karo</li>
+        </ul>
+        <p><strong>Mobile Use Rule:</strong></p>
+        <ul>
+          <li>Phone ko upar lao (eye level pe)</li>
+          <li>Niche jhuk ke use mat karo</li>
+        </ul>
+        <p><strong>Sitting Posture:</strong></p>
+        <ul>
+          <li>Screen eye level pe ho</li>
+          <li>Back seedhi rakho</li>
+          <li>Shoulders relax rakho</li>
+        </ul>
+      </div>
+      <div class="section-head">🎯 Fayde</div>
+      <div class="exercise-box">
+        <ul>
+          <li>✔ Gardan ka dard kam hoga</li>
+          <li>✔ Stiffness aur tightness kam hogi</li>
+          <li>✔ Posture improve hoga</li>
+          <li>✔ Future me problem nahi badhegi</li>
+        </ul>
+      </div>
+      <div class="section-head">⚠️ Dhyan Rakhe</div>
+      <div class="exercise-box">
+        <ul>
+          <li>❌ Jhatka nahi dena</li>
+          <li>❌ Pain me force nahi karna</li>
+          <li>✔ Roz kare (consistency zaroori hai)</li>
+        </ul>
+      </div>
+    `
   }
 };
 
@@ -674,6 +829,11 @@ function startRoutine(type) {
   badge.className = 'badge ' + routine.badgeClass;
   
   renderExercises(routine.sections);
+  
+  if (routine.additionalContent) {
+    const exContainer = document.getElementById('exerciseContainer');
+    exContainer.insertAdjacentHTML('beforeend', routine.additionalContent);
+  }
 }
 
 function goBack() {
